@@ -6,7 +6,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php
 
 # make default zabbix database tables
-RUN service mysql service start
+RUN service mysql start
 RUN mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by '';"
 RUN zcat /usr/share/zabbix-server-mysql/*.gz | mysql -u zabbix zabbix
 
