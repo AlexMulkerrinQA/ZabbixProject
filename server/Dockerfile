@@ -3,7 +3,7 @@ MAINTAINER Alex Mulkerrin <Alexander.Mulkerrin@qa.com>
 
 # download server and frontend packages
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install zabbix-server-mysql zabbix-frontend-php
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php
 
 # make default zabbix database tables
 RUN service mysql service start
