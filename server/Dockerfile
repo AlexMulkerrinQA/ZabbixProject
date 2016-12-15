@@ -30,7 +30,7 @@ RUN sed -i 's/# php_value date.timezone .*/php_value date.timezone Europe\/Londo
 #RUN cp /usr/share/doc/zabbix-frontend-php/examples/zabbix.conf.php.example /etc/zabbix/zabbix.conf.php
 #RUN sed -i '13s/.*/$DB["PASSWORD"] = "";/' /etc/zabbix/zabbix.conf.php
 #RUN cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/conf-enabled/zabbix.conf
-
+RUN cp /usr/share/zabbix/conf/zabbix.conf.php.example /etc/zabbix/web/zabbix.conf.php
 
 # RUN sed -i 's/START=no/START=yes/' /etc/default/zabbix-server
 
