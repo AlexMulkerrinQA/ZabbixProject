@@ -18,11 +18,13 @@ RUN service mysql start\
 
 
 # php configuration
-WORKDIR /etc/php5/apache2/
-RUN sed -i 's/post_max_size =.*/post_max_size = 16M/' php.ini
-RUN sed -i 's/max_execution_time =.*/max_execution_time = 300/' php.ini
-RUN sed -i 's/max_input_time =.*/max_input_time = 300/' php.ini
-RUN sed -i 's/date.timezone =.*/date.timezone = Europe\/London/' php.ini
+#WORKDIR /etc/php5/apache2/
+#RUN sed -i 's/post_max_size =.*/post_max_size = 16M/' php.ini
+#RUN sed -i 's/max_execution_time =.*/max_execution_time = 300/' php.ini
+#RUN sed -i 's/max_input_time =.*/max_input_time = 300/' php.ini
+#RUN sed -i 's/date.timezone =.*/date.timezone = Europe\/London/' php.ini
+
+RUN sed -i 's/# php_value date.timezone .*/php_value date.timezone Europe\/London/' /etc/zabbix/apache.conf
 
 # zabbix configuration
 #RUN cp /usr/share/doc/zabbix-frontend-php/examples/zabbix.conf.php.example /etc/zabbix/zabbix.conf.php
