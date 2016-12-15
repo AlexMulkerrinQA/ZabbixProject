@@ -1,16 +1,20 @@
 FROM ubuntu:trusty
 MAINTAINER Alex Mulkerrin <Alexander.Mulkerrin@qa.com>
 
-# download server and frontend packages
+# different repository commands
 RUN apt-get update
+RUN wget http://repo.zabbix.com/zabbix/3.2/ubuntu/pool/main/z/zabbix-release/zabbix-release_3.2-1+trusty_all.deb
+RUN dpkg -i zabbix-release_3.2-1+trusty_all.deb
+RUN apt-get update
+
+# download server and frontend packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php
 
 # make default zabbix database tables
-WORKDIR /usr/share/zabbix-server-mysql/
-RUN gunzip *.gz
 RUN service mysql start\
-&&	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by ''; flush privileges;" \
-&& cat schema.sql images.sql data.sql | mysql -u zabbix zabbix
+&&	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by '';# flush privileges;" \
+&& zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -uzabbix zabbix
+
 
 # php configuration
 WORKDIR /etc/php5/apache2/
@@ -25,7 +29,7 @@ RUN sed -i '13s/.*/$DB["PASSWORD"] = "";/' /etc/zabbix/zabbix.conf.php
 RUN cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/conf-enabled/zabbix.conf
 
 
-RUN sed -i 's/START=no/START=yes/' /etc/default/zabbix-server
+# RUN sed -i 's/START=no/START=yes/' /etc/default/zabbix-server
 
 EXPOSE 80/TCP 443/TCP
 ENTRYPOINT service mysql start && service apache2 start && service zabbix-server start && bash
