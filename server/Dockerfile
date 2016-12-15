@@ -13,7 +13,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix
 
 # make default zabbix database tables
 RUN service mysql start\
-&&	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by '';# flush privileges;" \
+&&	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by '';" \
 && zcat /usr/share/doc/zabbix-server-mysql/create.sql.gz | mysql -uzabbix zabbix
 
 # php configuration
