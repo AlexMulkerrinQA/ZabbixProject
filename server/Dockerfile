@@ -6,9 +6,11 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php
 
 # make default zabbix database tables
-RUN service mysql start &&\
-	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by ''; flush privileges;" &&\
-	zcat /usr/share/zabbix-server-mysql/*.gz | mysql -u zabbix zabbix
+WORKDIR /usr/share/zabbix-server-mysql/
+RUN gunzip *.gz
+RUN service mysql start\
+&&	mysql -u root -e "create database zabbix; grant all privileges on zabbix.* to zabbix@localhost identified by ''; flush privileges;" \
+&& cat schema.sql images.sql data.sql | mysql -u zabbix zabbix
 
 # php configuration
 WORKDIR /etc/php5/apache2/
