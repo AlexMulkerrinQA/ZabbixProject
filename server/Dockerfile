@@ -20,6 +20,11 @@ RUN sed -i 's/max_input_time =.*/max_input_time = 300/' php.ini
 RUN sed -i 's/date.timezone =.*/date.timezone = UTC/' php.ini
 
 # zabbix configuration
+RUN cp /usr/share/doc/zabbix-frontend-php/examples/zabbix.conf.php.example /etc/zabbix/zabbix.conf.php
+RUN sed -i '13s/.*/$DB["PASSWORD"] = "";/' /etc/zabbix/zabbix.conf.php
+RUN cp /usr/share/doc/zabbix-frontend-php/examples/apache.conf /etc/apache2/conf-enabled/zabbix.conf
+
+
 RUN sed -i 's/START=no/START=yes/' /etc/default/zabbix-server
 
 EXPOSE 80/TCP 443/TCP
