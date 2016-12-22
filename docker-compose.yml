@@ -1,0 +1,22 @@
+version: '2'
+services:
+  zabbix-server:
+    build: ./server
+    ports:
+      - "80:80"
+      - "10051:10051"
+    tty: true
+
+  zabbix-agent:
+    build: ./agent
+    links:
+      - zabbix-server
+#    ports:
+#      - "10050:10050"
+    tty: true
+
+  zabbix-agent2:
+    build: ./agent
+    ports:
+      - "10060:10050"
+    tty: true

@@ -9,7 +9,7 @@ RUN dpkg -i zabbix-release_3.2-1+trusty_all.deb
 RUN apt-get update
 
 # download server and frontend packages
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y zabbix-server-mysql zabbix-frontend-php zabbix-agent
 
 # make default zabbix database tables
 RUN service mysql start\
@@ -23,4 +23,4 @@ RUN sed -i 's/# php_value date.timezone .*/php_value date.timezone Europe\/Londo
 RUN cp /usr/share/zabbix/conf/zabbix.conf.php.example /etc/zabbix/web/zabbix.conf.php
 
 EXPOSE 80/TCP 443/TCP
-ENTRYPOINT service mysql start && service apache2 start && service zabbix-server start && bash
+ENTRYPOINT service mysql start && service apache2 start && service zabbix-server start && service zabbix-agent start && bash
