@@ -17,6 +17,6 @@ services:
 
   zabbix-agent2:
     build: ./agent
-    ports:
-      - "10060:10050"
+#    ports:
+#      - "10060:10050"
     tty: true
